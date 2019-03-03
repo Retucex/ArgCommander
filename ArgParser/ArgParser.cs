@@ -6,7 +6,13 @@ namespace ArgParser
 {
     public static class ArgParser
     {
-        public static T ParseArgs<T>(string[] args) where T : new()
+		/// <summary>
+		/// Parses a string array into a class containing [CmdArg] adorned prperties.
+		/// </summary>
+		/// <typeparam name="T">Class containing [CmdArg] adorned prperties</typeparam>
+		/// <param name="args">String array with cmd line arguments and values</param>
+		/// <returns></returns>
+		public static T ParseArgs<T>(string[] args) where T : new()
         {
             T obj = new T();
 

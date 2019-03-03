@@ -5,6 +5,9 @@ using System.Text;
 
 namespace ArgParser
 {
+	/// <summary>
+	/// Class to help convert generics
+	/// </summary>
     static class TConverter
     {
         public static T ChangeType<T>(object value)

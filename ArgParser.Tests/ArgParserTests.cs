@@ -2,6 +2,9 @@ using ArgParser;
 using static ArgParser.ArgParser;
 using NUnit.Framework;
 
+/// <summary>
+/// Tests
+/// </summary>
 namespace Tests
 {
 	public enum TestEnum
