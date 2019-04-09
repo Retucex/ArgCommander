@@ -1,45 +1,15 @@
 using ArgParser;
 using static ArgParser.ArgParser;
 using NUnit.Framework;
+using System.Diagnostics;
+using System;
 
 /// <summary>
 /// Tests
 /// </summary>
-namespace Tests
+namespace ArgParser.Tests
 {
-	public enum TestEnum
-	{
-		test0,
-		test1,
-		test2
-	}
-
-	class TestSettings
-	{
-		[CmdArg("-flag", CmdArgMode.IsFlag)]
-		public bool Flag { get; set; }
-
-		[CmdArg("-int", CmdArgMode.HasValue)]
-		public int IntVal { get; set; }
-
-		[CmdArg("-float", CmdArgMode.HasValue)]
-		public float FloatVal { get; set; }
-
-		[CmdArg("-double", CmdArgMode.HasValue)]
-		public double DoubleVal { get; set; }
-
-		[CmdArg("-decimal", CmdArgMode.HasValue)]
-		public decimal DecimalVal { get; set; }
-
-		[CmdArg("-enum", CmdArgMode.HasValue)]
-		public TestEnum EnumVal { get; set; }
-
-		[CmdArg("-string", CmdArgMode.HasValue)]
-		public string StringVal { get; set; }
-
-		[CmdArg("-char", CmdArgMode.HasValue)]
-		public char CharVal { get; set; }
-	}
+	
 
 	public class ArgParserTests
 	{
@@ -48,13 +18,14 @@ namespace Tests
 		{
 		}
 
-		[Test]
-		public void Should_set_flag_to_true()
+		[TestCase("-f", ExpectedResult = true)]
+		[TestCase("-flag", ExpectedResult = true)]
+		public bool Should_set_flag_to_true(string arg)
 		{
-			var args = new[] { "-flag" };
-			var set = ParseArgs<TestSettings>(args);
+			var args = new[] { arg };
+			var set = ParseArgs<TestConversion>(args);
 
-			Assert.True(set.Flag, "Failed to set flag.");
+			return set.Flag;
 		}
 
 		[TestCase("1", ExpectedResult = 1)]
@@ -63,7 +34,7 @@ namespace Tests
 		public int Should_set_int_to_value(string val)
 		{
 			var args = new[] { "-int", val };
-			var set = ParseArgs<TestSettings>(args);
+			var set = ParseArgs<TestConversion>(args);
 
 			return set.IntVal;
 		}
@@ -74,7 +45,7 @@ namespace Tests
 		public void Should_set_float_to_value(string val, float expected)
 		{
 			var args = new[] { "-float", val };
-			var set = ParseArgs<TestSettings>(args);
+			var set = ParseArgs<TestConversion>(args);
 
 			Assert.AreEqual(expected, set.FloatVal, 0.000005);
 		}
@@ -85,7 +56,7 @@ namespace Tests
 		public void Should_set_double_to_value(string val, double expected)
 		{
 			var args = new[] { "-double", val };
-			var set = ParseArgs<TestSettings>(args);
+			var set = ParseArgs<TestConversion>(args);
 
 			Assert.AreEqual(expected, set.DoubleVal, 0.000005);
 		}
@@ -96,7 +67,7 @@ namespace Tests
 		public void Should_set_decimal_to_value(string val, double expected)
 		{
 			var args = new[] { "-decimal", val };
-			var set = ParseArgs<TestSettings>(args);
+			var set = ParseArgs<TestConversion>(args);
 
 			Assert.AreEqual(expected, (double)set.DecimalVal, 0.000005);
 		}
@@ -110,7 +81,7 @@ namespace Tests
 		public void Should_set_enum_to_value(string val, TestEnum expected)
 		{
 			var args = new[] { "-enum", val };
-			var set = ParseArgs<TestSettings>(args);
+			var set = ParseArgs<TestConversion>(args);
 
 			Assert.AreEqual(expected, set.EnumVal);
 		}
@@ -123,7 +94,7 @@ namespace Tests
 		public void Should_set_string_to_value(string val, string expected)
 		{
 			var args = new[] { "-string", val };
-			var set = ParseArgs<TestSettings>(args);
+			var set = ParseArgs<TestConversion>(args);
 
 			Assert.AreEqual(expected, set.StringVal);
 		}
@@ -132,9 +103,26 @@ namespace Tests
 		public void Should_set_char_to_value(string val, char expected)
 		{
 			var args = new[] { "-char", val };
-			var set = ParseArgs<TestSettings>(args);
+			var set = ParseArgs<TestConversion>(args);
 
 			Assert.AreEqual(expected, set.CharVal);
+		}
+
+		[TestCase("1.02")]
+		public void Should_output_default_failureMethod(string val)
+		{
+			var args = new[] { "-int", val };
+
+			Assert.Throws<CmdArgException>(() => ParseArgs<TestFailure>(args));
+		}
+
+		[TestCase("1.02")]
+		public void Should_output_custom_failureMethod(string val)
+		{
+			var args = new[] { "-int", val };
+
+			var ex = Assert.Throws<CmdArgException>(() => ParseArgs<TestFailureCustom>(args));
+			Assert.That(ex.Message == "Custom Error");
 		}
 	}
 }
