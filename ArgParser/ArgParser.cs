@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Linq;
 using System.Diagnostics;
+using ArgParser.Exceptions;
 
 namespace ArgParser
 {
@@ -12,13 +13,11 @@ namespace ArgParser
 		/// <summary>
 		/// Parses a string array into a class containing [CmdArg] adorned properties.
 		/// </summary>
-		/// <typeparam name="T">Class containing [CmdArg] adorned prperties</typeparam>
+		/// <typeparam name="T">Class containing [CmdArg] adorned properties</typeparam>
 		/// <param name="args">String array with cmd line arguments and values</param>
 		/// <returns></returns>
 		public static T ParseArgs<T>(string[] args) where T : new()
         {
-			GetTFailureMethods(typeof(T));
-
             T obj = new T();
 
             var props = typeof(T).GetProperties()
@@ -56,55 +55,17 @@ namespace ArgParser
 						{
 							prop.SetValue(obj, value);
 						}
-						else
-						{
-							CallFailureMethods(obj);
-						}
+                        else
+                        {
+                            throw new CmdArgException(prop.Name);
+                        }
 					}
 					catch (Exception ex)
 					{
-
-						CallFailureMethods(obj);
+                        throw new CmdArgException(prop.Name, ex.Message, ex);
 					}
 				}
 			}
-		}
-
-		private static void GetTFailureMethods(Type type)
-		{
-			failureMethods = type.GetMethods()
-				.Where(x => x.IsDefined(typeof(CmdArgOnFailureAttribute)))
-				.ToArray();
-		}
-
-		private static void CallFailureMethods<T>(T obj)
-		{
-			if(failureMethods.Length > 0)
-			{
-				foreach(var method in failureMethods)
-				{
-					try
-					{
-						method.Invoke(obj, new object[] { });
-					}
-					catch (Exception ex)
-					{
-						if(ex.InnerException != null)
-						{
-							throw ex.InnerException;
-						}
-					}
-				}
-			}
-			else
-			{
-				DefaultFailureMethod();
-			}
-		}
-
-		private static void DefaultFailureMethod()
-		{
-			throw new CmdArgException("Arguments invalid");
 		}
 	}
 }

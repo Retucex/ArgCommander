@@ -39,22 +39,4 @@ namespace ArgParser.Tests
 		[CmdArg("-char")]
 		public char CharVal { get; set; }
 	}
-
-	class TestFailure
-	{
-		[CmdArg("-int")]
-		public int floatInIntVal { get; set; }
-	}
-
-	class TestFailureCustom
-	{
-		[CmdArg("-int")]
-		public int floatInIntVal { get; set; }
-
-		[CmdArgOnFailure]
-		public void CustomError()
-		{
-			throw new CmdArgException("Custom Error");
-		}
-	}
 }

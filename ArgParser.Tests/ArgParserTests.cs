@@ -31,7 +31,7 @@ namespace ArgParser.Tests
 		[TestCase("1", ExpectedResult = 1)]
 		[TestCase("10000", ExpectedResult = 10000)]
 		[TestCase("-2", ExpectedResult = -2)]
-		public int Should_set_int_to_value(string val)
+        public int Should_set_int_to_value(string val)
 		{
 			var args = new[] { "-int", val };
 			var set = ParseArgs<TestConversion>(args);
@@ -106,23 +106,6 @@ namespace ArgParser.Tests
 			var set = ParseArgs<TestConversion>(args);
 
 			Assert.AreEqual(expected, set.CharVal);
-		}
-
-		[TestCase("1.02")]
-		public void Should_output_default_failureMethod(string val)
-		{
-			var args = new[] { "-int", val };
-
-			Assert.Throws<CmdArgException>(() => ParseArgs<TestFailure>(args));
-		}
-
-		[TestCase("1.02")]
-		public void Should_output_custom_failureMethod(string val)
-		{
-			var args = new[] { "-int", val };
-
-			var ex = Assert.Throws<CmdArgException>(() => ParseArgs<TestFailureCustom>(args));
-			Assert.That(ex.Message == "Custom Error");
 		}
 	}
 }

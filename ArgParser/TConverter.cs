@@ -8,9 +8,9 @@ namespace ArgParser
 	/// <summary>
 	/// Class to help convert generics
 	/// </summary>
-    static class TConverter
+    internal static class TConverter
     {
-		public static bool TryChangeType<T>(object value, out T parsedValue)
+		internal static bool TryChangeType<T>(object value, out T parsedValue)
 		{
 			try
 			{
@@ -24,7 +24,7 @@ namespace ArgParser
 			}
 		}
 
-		public static bool TryChangeType(Type t, object value, out object parsedValue)
+		internal static bool TryChangeType(Type t, object value, out object parsedValue)
 		{
 			try
 			{
@@ -45,18 +45,18 @@ namespace ArgParser
 			}
 		}
 
-		public static T ChangeType<T>(object value)
+		internal static T ChangeType<T>(object value)
         {
             return (T)ChangeType(typeof(T), value);
         }
 
-        public static object ChangeType(Type t, object value)
+        internal static object ChangeType(Type t, object value)
         {
             TypeConverter tc = TypeDescriptor.GetConverter(t);
             return tc.ConvertFrom(value);
         }
 
-        public static void RegisterTypeConverter<T, TC>() where TC : TypeConverter
+        internal static void RegisterTypeConverter<T, TC>() where TC : TypeConverter
         {
 
             TypeDescriptor.AddAttributes(typeof(T), new TypeConverterAttribute(typeof(TC)));

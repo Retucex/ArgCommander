@@ -8,6 +8,7 @@ namespace ArgParser
 	{
 		None,
 		OnlyOne,
-		AtleastOne
+		AtleastOne,
+        All
 	}
 }
