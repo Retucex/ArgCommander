@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace ArgParser
+namespace ArgCommander
 {
     /// <summary>
     /// Class to help convert generics

@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
-using static ArgParser.ArgParser;
+using static ArgCommander.Parser;
 
-namespace ArgParser.Tests
+namespace ArgCommander.Tests
 {
     [TestFixture]
-    public class ArgParserGroupingTests
+    public class ArgCommanderGroupingTests
     {
         [SetUp]
         public void Setup()

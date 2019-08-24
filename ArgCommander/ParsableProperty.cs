@@ -1,4 +1,4 @@
-﻿namespace ArgParser
+﻿namespace ArgCommander
 {
     internal class ParsableProperty
     {

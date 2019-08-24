@@ -1,4 +1,4 @@
-﻿namespace ArgParser
+﻿namespace ArgCommander
 {
     public enum CmdArgGroupMode
     {

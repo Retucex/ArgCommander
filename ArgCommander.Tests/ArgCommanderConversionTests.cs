@@ -1,13 +1,13 @@
 using NUnit.Framework;
-using static ArgParser.ArgParser;
+using static ArgCommander.Parser;
 
 /// <summary>
 /// Tests
 /// </summary>
-namespace ArgParser.Tests
+namespace ArgCommander.Tests
 {
     [TestFixture]
-    public class ArgParserConversionTests
+    public class ArgCommanderConversionTests
     {
         [SetUp]
         public void Setup()

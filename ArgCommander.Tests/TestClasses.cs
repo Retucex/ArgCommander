@@ -1,4 +1,4 @@
-﻿namespace ArgParser.Tests
+﻿namespace ArgCommander.Tests
 {
     public enum TestEnum
     {

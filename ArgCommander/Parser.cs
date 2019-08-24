@@ -1,12 +1,12 @@
-﻿using ArgParser.Exceptions;
+﻿using ArgCommander.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace ArgParser
+namespace ArgCommander
 {
-    public static class ArgParser
+    public static class Parser
     {
         static List<ParsableProperty> parsableProperties = new List<ParsableProperty>();
 

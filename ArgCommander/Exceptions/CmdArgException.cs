@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace ArgParser.Exceptions
+namespace ArgCommander.Exceptions
 {
     [Serializable]
     public class CmdArgException : Exception

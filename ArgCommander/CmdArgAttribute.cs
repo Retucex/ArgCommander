@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ArgParser
+namespace ArgCommander
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class CmdArgAttribute : Attribute
@@ -11,7 +11,7 @@ namespace ArgParser
         public CmdArgGroupMode GroupMode { get; }
 
         /// <summary>
-        /// Makes the property targetable by ArgParser.ParseArgs<T>() to receive the value or flag passed as a command line argument.
+        /// Makes the property targetable by ArgCommander.ParseArgs<T>() to receive the value or flag passed as a command line argument.
         /// </summary>
         /// <param name="argument">String passed by command line argument representing a property.</param>
         /// <param name="isRequired">Set to true to make the argument required. Throws CmdArgRequired if the argument is missing.</param>
@@ -26,7 +26,7 @@ namespace ArgParser
         }
 
         /// <summary>
-        /// Makes the property targetable by ArgParser.ParseArgs<T>() to receive the value or flag passed as a command line argument.
+        /// Makes the property targetable by ArgCommander.ParseArgs<T>() to receive the value or flag passed as a command line argument.
         /// </summary>
         /// <param name="argument">String passed by command line argument representing a property.</param>
         /// <param name="isRequired">Set to true to make the argument required. Throws CmdArgRequired if the argument is missing.</param>
@@ -34,7 +34,7 @@ namespace ArgParser
             : this(argument, isRequired, null, CmdArgGroupMode.None) { }
 
         /// <summary>
-        /// Makes the property targetable by ArgParser.ParseArgs<T>() to receive the value or flag passed as a command line argument.
+        /// Makes the property targetable by ArgCommander.ParseArgs<T>() to receive the value or flag passed as a command line argument.
         /// </summary>
         /// <param name="argument">String passed by command line argument representing a property.</param>
         public CmdArgAttribute(string argument)

@@ -13,9 +13,9 @@
 
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 
-    <PackageProjectUrl>https://github.com/Retucex/ArgParser</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Retucex/ArgCommander</PackageProjectUrl>
 
-    <RepositoryUrl>https://github.com/Retucex/ArgParser</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Retucex/ArgCommander</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,14 +27,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ArgParser\ArgParser.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ArgCommander\ArgCommander.csproj" />
   </ItemGroup>
 
 </Project>
