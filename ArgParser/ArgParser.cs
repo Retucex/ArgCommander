@@ -80,27 +80,40 @@ namespace ArgParser
                 }
                 else
                 {
-                    try
-                    {
-                        var i = Array.IndexOf(args, arg);
-                        object value;
-                        if (TConverter.TryChangeType(prop.PropertyType, args[i + 1], out value))
-                        {
-                            prop.SetValue(obj, value);
-                        }
-                        else
-                        {
-                            throw new CmdArgException(prop.Name);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new CmdArgException(prop.Name, ex.Message, ex);
-                    }
+                    ParseNotBool(prop, args, obj, arg);
                 }
                 return true;
             }
             return false;
+        }
+
+        private static void ParseNotBool<T>(PropertyInfo prop, string[] args, T obj, string arg) where T : new()
+        {
+            try
+            {
+                var i = Array.IndexOf(args, arg);
+                object value;
+                value = TryParseType(prop, args, obj, i);
+            }
+            catch (Exception ex)
+            {
+                throw new CmdArgException(prop.Name, ex.Message, ex);
+            }
+        }
+
+        private static object TryParseType<T>(PropertyInfo prop, string[] args, T obj, int i) where T : new()
+        {
+            object value;
+            if (TConverter.TryChangeType(prop.PropertyType, args[i + 1], out value))
+            {
+                prop.SetValue(obj, value);
+            }
+            else
+            {
+                throw new CmdArgException(prop.Name);
+            }
+
+            return value;
         }
 
         private static void CheckRequired(PropertyInfo prop, bool isRequired, bool parseSuccess)
