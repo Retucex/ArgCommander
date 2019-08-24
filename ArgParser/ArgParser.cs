@@ -1,9 +1,8 @@
-﻿using System;
-using System.Reflection;
-using System.Linq;
-using System.Diagnostics;
-using ArgParser.Exceptions;
+﻿using ArgParser.Exceptions;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace ArgParser
 {
@@ -11,24 +10,24 @@ namespace ArgParser
     {
         static List<ParsableProperty> parsableProperties = new List<ParsableProperty>();
 
-		/// <summary>
-		/// Parses a string array into a class containing [CmdArg] adorned properties.
-		/// </summary>
-		/// <typeparam name="T">Class containing [CmdArg] adorned properties</typeparam>
-		/// <param name="args">String array with cmd line arguments and values</param>
-		/// <returns></returns>
-		public static T ParseArgs<T>(string[] args) where T : new()
+        /// <summary>
+        /// Parses a string array into a class containing [CmdArg] adorned properties.
+        /// </summary>
+        /// <typeparam name="T">Class containing [CmdArg] adorned properties</typeparam>
+        /// <param name="args">String array with cmd line arguments and values</param>
+        /// <returns></returns>
+        public static T ParseArgs<T>(string[] args) where T : new()
         {
             parsableProperties = new List<ParsableProperty>();
             T obj = new T();
 
             var props = typeof(T).GetProperties()
-				.Where(x => x.IsDefined(typeof(CmdArgAttribute)));
+                .Where(x => x.IsDefined(typeof(CmdArgAttribute)));
 
-			foreach(var prop in props)
-			{
-				var attrs = prop.GetCustomAttributes<CmdArgAttribute>();
-				foreach (var attr in attrs)
+            foreach (var prop in props)
+            {
+                var attrs = prop.GetCustomAttributes<CmdArgAttribute>();
+                foreach (var attr in attrs)
                 {
                     var isRequired = attr.IsRequired;
                     var parseSuccess = ParseArg(prop, attr, args, obj);
@@ -61,7 +60,7 @@ namespace ArgParser
             var propNameGroup = parsableProperties.GroupBy(x => x.PropName);
             foreach (var propName in propNameGroup)
             {
-                if(propName.Count(x => x.IsSet) > 1)
+                if (propName.Count(x => x.IsSet) > 1)
                 {
                     throw new CmdArgException(propName.FirstOrDefault(x => true).PropName, $"Cannot set same argument more than once. {propName.FirstOrDefault(x => true).PropName}");
                 }
@@ -69,40 +68,40 @@ namespace ArgParser
         }
 
         private static bool ParseArg<T>(PropertyInfo prop, CmdArgAttribute attr, string[] args, T obj) where T : new()
-		{
-			var arg = args.FirstOrDefault(x => x == attr.Argument);
+        {
+            var arg = args.FirstOrDefault(x => x == attr.Argument);
 
-			if (arg != null)
-			{
-				if (prop.PropertyType == typeof(bool) ||
+            if (arg != null)
+            {
+                if (prop.PropertyType == typeof(bool) ||
                     prop.PropertyType == typeof(bool?))
-				{
-					prop.SetValue(obj, true);
-				}
-				else
-				{
-					try
-					{
-						var i = Array.IndexOf(args, arg);
-						object value;
-						if (TConverter.TryChangeType(prop.PropertyType, args[i + 1], out value))
-						{
-							prop.SetValue(obj, value);
-						}
+                {
+                    prop.SetValue(obj, true);
+                }
+                else
+                {
+                    try
+                    {
+                        var i = Array.IndexOf(args, arg);
+                        object value;
+                        if (TConverter.TryChangeType(prop.PropertyType, args[i + 1], out value))
+                        {
+                            prop.SetValue(obj, value);
+                        }
                         else
                         {
                             throw new CmdArgException(prop.Name);
                         }
-					}
-					catch (Exception ex)
-					{
+                    }
+                    catch (Exception ex)
+                    {
                         throw new CmdArgException(prop.Name, ex.Message, ex);
-					}
-				}
+                    }
+                }
                 return true;
-			}
+            }
             return false;
-		}
+        }
 
         private static void CheckRequired(PropertyInfo prop, bool isRequired, bool parseSuccess)
         {
@@ -114,7 +113,7 @@ namespace ArgParser
 
         private static void SetParsableProperty(PropertyInfo prop, CmdArgAttribute attr, bool isSet)
         {
-            if(!string.IsNullOrEmpty(attr.Group))
+            if (!string.IsNullOrEmpty(attr.Group))
             {
                 parsableProperties.Add(new ParsableProperty
                 {
@@ -148,12 +147,12 @@ namespace ArgParser
                     default:
                         break;
                 }
-            } 
+            }
         }
 
         private static void ValidateAll(IEnumerable<ParsableProperty> group)
         {
-            if(!group.All(x => x.IsSet) && !group.All(x => !x.IsSet))
+            if (!group.All(x => x.IsSet) && !group.All(x => !x.IsSet))
             {
                 throw new CmdArgException(group.First().GroupName, $"All arguments need to be defined in {group.First().GroupName}.");
             }
@@ -169,7 +168,7 @@ namespace ArgParser
 
         private static void ValidateOnlyOne(IEnumerable<ParsableProperty> group)
         {
-            if(group.Count(x => x.IsSet) > 1)
+            if (group.Count(x => x.IsSet) > 1)
             {
                 throw new CmdArgException(group.First().GroupName, $"Only 1 argument can be defined in {group.First().GroupName}.");
             }
@@ -178,7 +177,7 @@ namespace ArgParser
         private static void ValidateIsSameGroupMode(IEnumerable<ParsableProperty> group)
         {
             var firstMode = group.ToList()[0].GroupMode;
-            if(!group.All(x => x.GroupMode == firstMode))
+            if (!group.All(x => x.GroupMode == firstMode))
             {
                 throw new CmdArgException(group.First().GroupName, $"{group.First().GroupName} defines different GroupModes.");
             }

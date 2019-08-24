@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ArgParser
+﻿namespace ArgParser
 {
-	public enum CmdArgGroupMode
-	{
-		None,
-		OnlyOne,
-		AtleastOne,
+    public enum CmdArgGroupMode
+    {
+        None,
+        OnlyOne,
+        AtleastOne,
         All
-	}
+    }
 }

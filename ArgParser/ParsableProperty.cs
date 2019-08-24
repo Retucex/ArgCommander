@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ArgParser
+﻿namespace ArgParser
 {
     internal class ParsableProperty
     {

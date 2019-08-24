@@ -1,8 +1,5 @@
-﻿using ArgParser;
+﻿using NUnit.Framework;
 using static ArgParser.ArgParser;
-using NUnit.Framework;
-using System.Diagnostics;
-using System;
 
 namespace ArgParser.Tests
 {
