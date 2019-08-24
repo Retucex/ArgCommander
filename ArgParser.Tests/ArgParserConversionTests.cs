@@ -9,9 +9,8 @@ using System;
 /// </summary>
 namespace ArgParser.Tests
 {
-	
-
-	public class ArgParserTests
+    [TestFixture]
+	public class ArgParserConversionTests
 	{
 		[SetUp]
 		public void Setup()
