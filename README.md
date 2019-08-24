@@ -26,9 +26,9 @@ class Foo
 }
 ```
 
-Once our class is defined, we simply pass our `args[]` object to the static `ParseArgs<T>` method of ArgCommander.
+Once our class is defined, we simply pass our `args[]` object to the static `ParseArgs<T>` method of Parser.
 ```csharp
-using static ArgCommander.ArgCommander;
+using static ArgCommander.Parser;
 class Program
 {
   static void Main(string[] args)
